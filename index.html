@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash App Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* CSS for the Cash App Clone */
+        :root {
+            --cash-app-green: #00da30;
+            --cash-app-dark-green: #00b326;
+            --text-color-light: #ffffff; 
+            --button-bg-color: #ffffff;
+            --button-text-inverted: var(--cash-app-green);
+        }
+
+        body {
+            background-color: var(--cash-app-green);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color-light); 
+            user-select: none; 
+            overflow: hidden; 
+        }
+
+        .app-screen {
+            width: 100%;
+            max-width: 450px; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px; 
+            box-sizing: border-box;
+        }
+
+        /* --- Header Section --- */
+        .header {
+            display: flex;
+            /* Space between QR and Search, and Profile */
+            justify-content: space-between; 
+            align-items: center;
+            padding: 15px 5px;
+        }
+
+        /* Container for the QR and Search icons (to group them) */
+        .header-left-icons {
+            display: flex;
+            gap: 15px; /* Spacing between the QR and Search icon */
+        }
+        
+        /* Styling for all clickable header and nav icons */
+        .app-icon {
+            color: var(--text-color-light);
+            cursor: pointer;
+            font-size: 24px; /* Standardized icon size for header */
+            width: 35px; 
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Specific header icon refinements */
+        .header-qr {
+             font-size: 28px; /* Slightly bigger for the QR/menu icon */
+        }
+        .header-search {
+             font-size: 24px; /* Standard search size */
+        }
+
+        .profile-icon {
+            position: relative;
+            cursor: pointer;
+            width: 35px; 
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-icon img {
+            /* Using a white circle with a white outline for the PFP placeholder */
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--text-color-light); 
+            border: 2px solid var(--text-color-light); /* Outline */
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff3b30; 
+            color: white;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 1;
+            border: 2px solid var(--cash-app-green);
+        }
+
+        /* --- Balance Display --- */
+        .balance-display {
+            flex-grow: 1; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px; 
+            font-weight: 700;
+            letter-spacing: -2px; 
+            color: var(--text-color-light);
+        }
+
+        /* Balance Input Pop Animation */
+        @keyframes input-pop {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.01); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .balance-display span {
+            min-width: 50px; 
+            display: inline-block; /* Required for transform/animation to work */
+        }
+        
+        .balance-display span.animated {
+            animation: input-pop 0.15s ease-out;
+        }
+
+        /* --- Keypad Section --- */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 5px 0; 
+            padding: 20px 0;
+        }
+
+        .keypad-button {
+            color: var(--text-color-light);
+            background: none; 
+            border: none;
+            padding: 15px 0;
+            font-size: 32px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.05s ease, opacity 0.05s ease; /* Added transition for smooth effect */
+        }
+
+        /* Keypad Touch Animation */
+        .keypad-button:active {
+            transform: scale(0.95);
+            opacity: 0.7;
+        }
+        
+        .backspace-icon {
+            font-size: 40px; 
+            font-weight: 400;
+        }
+        
+        /* --- Action Buttons --- */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0 10px 0; 
+        }
+
+        .action-button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 15px 0;
+            border: none;
+            border-radius: 35px; 
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--cash-app-dark-green); 
+            color: var(--text-color-light); 
+            transition: background-color 0.1s;
+        }
+
+        .action-button:active {
+            background-color: var(--cash-app-green); 
+        }
+        
+        /* --- Primary Pay Button --- */
+        .pay-button {
+            width: 100%;
+            padding: 20px 0;
+            border: none;
+            border-radius: 35px;
+            background-color: var(--button-bg-color); 
+            color: var(--button-text-inverted); 
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: opacity 0.1s;
+        }
+
+        .pay-button:active {
+            opacity: 0.8;
+        }
+
+        /* --- Navigation Bar --- */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding: 10px 0;
+            background-color: var(--cash-app-green);
+        }
+        
+        /* NEW RULE: Set opacity for Home and Recent/Activity icons (nav-item without nav-center-highlight) */
+        .nav-bar .nav-item:not(.nav-center-highlight) {
+            opacity: 0.65;
+        }
+
+        .nav-item {
+            font-size: 28px; 
+            transition: transform 0.1s ease;
+        }
+        
+        /* Highlight the center nav item (retains full opacity) */
+        .nav-center-highlight {
+            font-size: 35px; 
+            transform: translateY(-5px); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-screen">
+        
+        <div class="header">
+            
+            <div class="header-left-icons">
+                <div class="app-icon header-qr"><i class="fa-solid fa-qrcode"></i></div> 
+                <div class="app-icon header-search"><i class="fa-solid fa-magnifying-glass"></i></div>
+            </div>
+            
+            <div class="profile-icon">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' fill='%2300da30'/></svg>" alt="Profile Placeholder">
+                <span class="notification-badge">3</span>
+            </div>
+        </div>
+        
+        <div class="balance-display" id="balanceDisplay">
+            $<span>0</span>
+        </div>
+        
+        <div class="keypad">
+            <button class="keypad-button" data-value="1">1</button>
+            <button class="keypad-button" data-value="2">2</button>
+            <button class="keypad-button" data-value="3">3</button>
+            <button class="keypad-button" data-value="4">4</button>
+            <button class="keypad-button" data-value="5">5</button>
+            <button class="keypad-button" data-value="6">6</button>
+            <button class="keypad-button" data-value="7">7</button>
+            <button class="keypad-button" data-value="8">8</button>
+            <button class="keypad-button" data-value="9">9</button>
+            <button class="keypad-button" data-value=".">, </button>
+            <button class="keypad-button" data-value="0">0</button>
+            <button class="keypad-button backspace-icon" data-value="backspace">&lt;</button>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button" onclick="alert('Pool functionality not implemented.')">Pool</button>
+            <button class="action-button" onclick="alert('Request functionality not implemented.')">Request</button>
+        </div>
+        
+        <button class="pay-button" onclick="handlePayClick()">
+            Pay
+        </button>
+        
+        <div class="nav-bar">
+            <div class="app-icon nav-item"><i class="fa-solid fa-house"></i></div> 
+            
+            <div class="app-icon nav-item nav-center-highlight"><i class="fa-solid fa-dollar-sign"></i></div> 
+            
+            <div class="app-icon nav-item"><i class="fa-solid fa-clock-rotate-left"></i></div> 
+        </div>
+        
+    </div>
+
+    <script>
+        // JavaScript for basic key input functionality
+        
+        const balanceSpan = document.getElementById('balanceDisplay').querySelector('span');
+        const keypadButtons = document.querySelectorAll('.keypad-button');
+        
+        let currentInput = "0";
+        
+        // --- NEW FUNCTION TO HANDLE PAY BUTTON CLICK ---
+        function handlePayClick() {
+            const amountText = balanceSpan.textContent;
+            // 1. Save the payment amount (e.g., "$1,234.00") to localStorage
+            localStorage.setItem('paymentAmount', amountText);
+            
+            // 2. Navigate to send.html with the smooth slide-in animation
+            window.location.href = 'send.html';
+        }
+        // --- END NEW FUNCTION ---
+        
+        // New function to format number with commas (for thousands)
+        function formatNumber(input) {
+            // Check if input is empty or just "0"
+            if (!input || input === "0") return "0";
+
+            // 1. Separate integer and decimal parts based on the period ('.')
+            let parts = input.split('.');
+            let integerPart = parts[0];
+            let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+
+            // 2. Add commas to the integer part (e.g., 10000 -> 10,000)
+            let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            // 3. Recombine and return
+            return formattedIntegerPart + decimalPart;
+        }
+
+        function updateDisplay() {
+            // Remove leading zero unless it's "0" or "0."
+            if (currentInput.length > 1 && currentInput.startsWith('0') && !currentInput.startsWith('0.')) {
+                currentInput = currentInput.substring(1);
+            }
+            if (currentInput === "") {
+                currentInput = "0";
+            }
+            
+            // Limit the length to prevent overflow
+            if (currentInput.length > 15) {
+                 // Keep the last 15 characters, assuming that's the maximum for a decent display
+                 currentInput = currentInput.substring(0, 15);
+            }
+
+            // Set the formatted text to the display span
+            balanceSpan.textContent = formatNumber(currentInput);
+
+            // Animation logic: Restart animation on every input change
+            balanceSpan.classList.remove('animated'); 
+            // This is a common trick to force a reflow/repaint, restarting the CSS animation
+            void balanceSpan.offsetWidth; 
+            balanceSpan.classList.add('animated');
+        }
+
+        keypadButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const value = event.currentTarget.dataset.value;
+
+                if (value === 'backspace') {
+                    if (currentInput.length > 1) {
+                        currentInput = currentInput.slice(0, -1);
+                    } else {
+                        currentInput = "0";
+                    }
+                } else if (value === '.') {
+                    // Check for decimal place limit (e.g., 2 decimal places)
+                    const decimalChar = '.';
+                    const parts = currentInput.split(decimalChar);
+
+                    if (parts.length === 1) {
+                        // Only add decimal if one doesn't exist
+                        currentInput += decimalChar;
+                    }
+                } else {
+                    // Prevent adding digits after two decimal places
+                    const parts = currentInput.split('.');
+                    if (parts.length > 1 && parts[1].length >= 2) {
+                        return;
+                    }
+
+                    if (currentInput === "0") {
+                        currentInput = value;
+                    } else {
+                        currentInput += value;
+                    }
+                }
+
+                updateDisplay();
+            });
+        });
+        
+        updateDisplay();
+    </script>
+</body>
+</html>
